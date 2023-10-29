@@ -2,7 +2,7 @@ import logging
 from aiogram import Bot, Dispatcher, types
 import psycopg2
 
-API_TOKEN = 'TOKEN'
+API_TOKEN = '6599440063:AAFT5XN8VFowLyDsU4H9tIPYhX0v0P4KSUQ'
 
 bot = Bot(token=API_TOKEN)
 dp = Dispatcher(bot)
@@ -17,7 +17,7 @@ async def cmd_start(message: types.Message):
 @dp.message_handler(commands=['save'])
 async def cmd_save(message: types.Message):
     try:
-        message_text = message.get_args()[2:]
+        message_text = message.get_args()
         user_id = message.from_user.id
 
         print(message_text)
