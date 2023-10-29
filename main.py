@@ -34,6 +34,24 @@ async def cmd_save(message: types.Message):
         await message.answer(f"Произошла ошибка при сохранении сообщения: {e}")
 
 
+@dp.message_handler(commands=['get'])
+async def cmd_get(message: types.Message):
+    try:
+        id = message.get_args()
+
+        cur = conn.cursor()
+        cur.execute("SELECT message_text FROM savedMessages WHERE id = %s", (id,))
+        result = cur.fetchone()
+        cur.close()
+
+        if result:
+            await message.answer(f"Ваше сообщение (ID {id}):\n{result[0]}")
+        else:
+            await message.answer("Сообщение с указанным ID не найдено.")
+
+    except Exception as e:
+        await message.answer(f"Произошла ошибка при получении сообщения: {e}")
+
 if __name__ == '__main__':
     from aiogram import executor
 
