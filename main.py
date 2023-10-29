@@ -52,7 +52,21 @@ async def cmd_get(message: types.Message):
     except Exception as e:
         await message.answer(f"Произошла ошибка при получении сообщения: {e}")
 
+def create_table():
+    cur = conn.cursor()
+    cur.execute("""
+        CREATE TABLE IF NOT EXISTS savedMessages (
+            id serial PRIMARY KEY,
+            user_id BIGINT NOT NULL,
+            message_text text NOT NULL
+        )
+    """)
+    conn.commit()
+    cur.close()
+
+
 if __name__ == '__main__':
+    create_table()
     from aiogram import executor
 
     executor.start_polling(dp, skip_updates=True)
